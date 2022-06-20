@@ -2,6 +2,11 @@
 
 # PaddleClas
 
+## How to build wheel
+```
+$ python3 setup.py bdist_wheel --universal
+```
+
 ## Introduction
 
 PaddleClas is an image classification and image recognition toolset for industry and academia, helping users train better computer vision models and apply them in real scenarios.
