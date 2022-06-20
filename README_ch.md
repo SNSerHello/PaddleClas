@@ -2,6 +2,11 @@
 
 # PaddleClas
 
+## How to build wheel
+```
+$ python3 setup.py bdist_wheel --universal
+```
+
 ## 简介
 
 飞桨图像识别套件PaddleClas是飞桨为工业界和学术界所准备的一个图像识别和图像分类任务的工具集，助力使用者训练出更好的视觉模型和应用落地。
