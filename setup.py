@@ -35,7 +35,7 @@ setup(
     entry_points={
         "console_scripts": ["paddleclas= paddleclas.paddleclas:main"]
     },
-    version='0.0.0',
+    version='2.3.1',
     install_requires=requirements,
     license='Apache License 2.0',
     description='A treasure chest for visual recognition powered by PaddlePaddle.',
