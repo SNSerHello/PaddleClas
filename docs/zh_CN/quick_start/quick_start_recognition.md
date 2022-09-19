@@ -1,4 +1,4 @@
-# 图像识别快速开始
+## 图像识别快速体验
 
 本文档包含 2 个部分：PP-ShiTu android端 demo 快速体验与PP-ShiTu PC端 demo 快速体验。
 
@@ -6,20 +6,9 @@
 
 ## 目录
 
-- [1. PP-ShiTu android端 demo 快速体验](#1-pp-shitu-android端-demo-快速体验)
+- [1. PP-ShiTu android demo 快速体验](#1-pp-shitu-android-demo-快速体验)
   - [1.1 安装 PP-ShiTu android demo](#11-安装-pp-shitu-android-demo)
-  - [1.2 功能体验](#12-功能体验)
-    - [1.2.1 图像检索](#121-图像检索)
-    - [1.2.2 图像加库](#122-图像加库)
-    - [1.2.3 保存检索库](#123-保存检索库)
-    - [1.2.4 初始化检索库](#124-初始化检索库)
-    - [1.2.5 查看检索库标签](#125-查看检索库标签)
-  - [1.3 功能详细介绍](#13-功能详细介绍)
-    - [1.3.1 图像检索](#131-图像检索)
-    - [1.3.2 图像加库](#132-图像加库)
-    - [1.3.3 保存检索库](#133-保存检索库)
-    - [1.3.4 初始化检索库](#134-初始化检索库)
-    - [1.3.5 查看检索库标签](#135-查看检索库标签)
+  - [1.2 操作说明](#12-操作说明)
 - [2. PP-ShiTu PC端 demo 快速体验](#2-pp-shitu-pc端-demo-快速体验)
   - [2.1 环境配置](#21-环境配置)
   - [2.2 图像识别体验](#22-图像识别体验)
@@ -33,9 +22,9 @@
     - [2.3.3 基于新的索引库的图像识别](#233-基于新的索引库的图像识别)
   - [2.4 服务端识别模型列表](#24-服务端识别模型列表)
 
-<a name="PP-ShiTu android端 快速体验"></a>
+<a name="PP-ShiTu android 快速体验"></a>
 
-## 1. PP-ShiTu android端 demo 快速体验
+## 1. PP-ShiTu android demo 快速体验
 
 <a name="安装"></a>
 
@@ -50,8 +39,10 @@
 ### 1.2 功能体验
 目前 PP-ShiTu android demo 具有图像检索、图像加库、保存检索库、初始化检索库、查看检索库标签等基本功能，接下来介绍如何体验这几个功能。
 
-#### 1.2.1 图像检索
+#### （1）识别图像中的物体
 点击下方的“拍照识别”按钮<img src="../../images/quick_start/android_demo/paizhaoshibie_100.png" width="25" height="25"/>或者“本地识别”按钮<img src="../../images/quick_start/android_demo/bendishibie_100.png" width="25" height="25"/>，即可拍摄一张图像或者选中一张图像，然后等待几秒钟，APP便会将图像中的主体框标注出来并且在图像下方给出预测的类别以及预测时间等信息。
+
+在选择好要检索的图片之后，首先会通过检测模型进行主体检测，得到图像中的物体的区域，然后将这块区域裁剪出来输入到识别模型中，得到对应的特征向量并在检索库中检索，返回并显示最终的检索结果。
 
 假设待检索的图像如下：
 
@@ -61,36 +52,28 @@
 
 <img src="../../images/quick_start/android_demo/android_nongfu_spring.JPG" width="400" height="800"/>
 
-#### 1.2.2 图像加库
+#### （2）向检索库中添加新的类别或物体
 点击上方的“拍照上传”按钮<img src="../../images/quick_start/android_demo/paizhaoshangchuan_100.png" width="25" height="25"/>或者“本地上传”按钮<img src="../../images/quick_start/android_demo/bendishangchuan_100.png" width="25" height="25"/>，即可拍摄一张图像或从图库中选择一张图像，然后再输入这张图像的类别名字（比如`keyboard`），点击“确定”按钮，即可将图片对应的特征向量与标签加入检索库。
 
-#### 1.2.3 保存检索库
-点击上方的“保存修改”按钮<img src="../../images/quick_start/android_demo/baocunxiugai_100.png" width="25" height="25"/>，即可将当前库以 `latest` 的库名保存下来。
-
-#### 1.2.4 初始化检索库
-点击上方的“初始化 ”按钮<img src="../../images/quick_start/android_demo/reset_100.png" width="25" height="25"/>，即可将当前库初始化为 `original`。
-
-#### 1.2.5 查看检索库标签
-点击“类别查询”按钮<img src="../../images/quick_start/android_demo/leibiechaxun_100.png" width="25" height="25"/>，即可在弹窗中查看。
-
-<a name="功能介绍"></a>
-
-### 1.3 功能详细介绍
-
-#### 1.3.1 图像检索
-在选择好要检索的图片之后，首先会通过检测模型进行主体检测，得到图像中的物体的区域，然后将这块区域裁剪出来输入到识别模型中，得到对应的特征向量并在检索库中检索，返回并显示最终的检索结果。
-
-#### 1.3.2 图像加库
 在选择好要入库的图片之后，首先会通过检测模型进行主体检测，得到图像中的物体的区域，然后将这块区域裁剪出来输入到识别模型中，得到对应的特征向量，再与用户输入的图像标签一起加入到检索库中。
 
-#### 1.3.3 保存检索库
-将当前程序中的库以 `latest` 的库名保存到手机中，并且自动切换到该库上。保存逻辑与一般软件的“另存为”类似。如果当前库已经是 `latest` 则会自动覆盖，如果是 `original` 则会切换到 `latest`。
+**温馨提示：** 使用安卓demo管理类别主要用于功能体验，如果您有较为重要的数据要生成检索库，推荐使用[检索库管理工具](https://github.com/PaddlePaddle/PaddleClas/blob/release/2.5/docs/zh_CN/inference_deployment/shitu_gallery_manager.md)
 
-#### 1.3.4 初始化检索库
-初始化库时会自动将检索库和标签库切换成 `original.index` 和 `original.txt`，并自动删除手机中的 `latest.index` 和 `latest.txt`（如果存在的话）。
+#### (3) 保存检索库
+点击上方的“保存修改”按钮<img src="../../images/quick_start/android_demo/baocunxiugai_100.png" width="25" height="25"/>，即可将当前库以 `latest` 的库名保存下来。
+再次打开程序时，将会自动选择使用`latest`库。app仅存在一个自定义库，每次保存时会覆盖之前的库。
 
-#### 1.3.5 查看检索库标签
-可按照 [功能体验-查看检索库标签](#125-查看检索库标签) 中说明进行查看，当检索标签库过多（如本demo自带的196类检索标签库）时，可在弹窗中滑动查看。
+#### (4) 检索库恢复出厂设置
+**警告：本操作无法撤销，初始化后自定义的标签和类别都会被删除，请谨慎操作**
+
+点击上方的“初始化 ”按钮<img src="../../images/quick_start/android_demo/reset_100.png" width="25" height="25"/>，删除所有自定义的标签和类别，恢复出厂特征库。
+
+初始化库时会删掉`latest`库（如果存在），自动将检索库和标签库切换成 `original.index` 和 `original.txt`。不管是否有保存过，自定义的标签和类别都会被清空。
+
+#### (5) 查看当前检索库中的类别列表
+点击“类别查询”按钮<img src="../../images/quick_start/android_demo/leibiechaxun_100.png" width="25" height="25"/>，即可在弹窗中查看。
+
+当检索标签库过多（如本demo自带的196类检索标签库）时，可在弹窗中滑动查看。
 
 
 ## 2. PP-ShiTu PC端 demo 快速体验
@@ -99,7 +82,7 @@
 
 ### 2.1 环境配置
 
-* 安装：请先参考文档 [环境准备](../installation/install_paddleclas.md) 配置 PaddleClas 运行环境。
+* 安装：请先参考文档 [环境准备](../installation.md) 配置 PaddleClas 运行环境。
 
 * 进入 `deploy` 运行目录。本部分所有内容与命令均需要在 `deploy` 目录下运行，可以通过下面的命令进入 `deploy` 目录。
 
@@ -124,7 +107,7 @@
 
 本章节 demo 数据下载地址如下: [drink_dataset_v2.0.tar(瓶装饮料数据)](https://paddle-imagenet-models-name.bj.bcebos.com/dygraph/rec/data/drink_dataset_v2.0.tar)，
 
-下面以 **drink_dataset_v2.0.tar** 为例介绍PC端的 PP-ShiTu 快速体验流程。用户也可以自行下载并解压其它场景的数据进行体验：[22种场景数据下载](../introduction/ppshitu_application_scenarios.md#1-应用场景介绍)。
+下面以 **drink_dataset_v2.0.tar** 为例介绍PC端的 PP-ShiTu 快速体验流程。用户也可以自行下载并解压其它场景的数据进行体验：[22种场景数据下载](../deployment/PP-ShiTu/application_scenarios.md#1-应用场景介绍)。
 
 如果希望体验服务端主体检测和各垂类方向的识别模型，可以参考 [2.4 服务端识别模型列表](#24-服务端识别模型列表)
 
@@ -317,7 +300,7 @@ python3.7 python/predict_system.py -c configs/inference_general.yaml -o Global.i
 python3.7 python/build_gallery.py -c configs/inference_general.yaml -o IndexProcess.data_file="./drink_dataset_v2.0/gallery/drink_label_all.txt" -o IndexProcess.index_dir="./drink_dataset_v2.0/index_all"
 ```
 
-最终构建完毕的新的索引库保存在文件夹 `./drink_dataset_v2.0/index_all` 下。具体 `yaml` 请参考[向量检索文档](../image_recognition_pipeline/vector_search.md)。
+最终构建完毕的新的索引库保存在文件夹 `./drink_dataset_v2.0/index_all` 下。具体 `yaml` 请参考[向量检索文档](../deployment/PP-ShiTu/vector_search.md)。
 
 <a name="基于新的索引库的图像识别"></a>
 
@@ -394,4 +377,4 @@ wget https://paddle-imagenet-models-name.bj.bcebos.com/dygraph/rec/data/recognit
 
 按照上述步骤下载模型和测试数据后，您可以重新建立索引库，并进行相关方向识别模型的测试。
 
-* 更多关于主体检测的介绍可以参考：[主体检测教程文档](../image_recognition_pipeline/mainbody_detection.md)；关于特征提取的介绍可以参考：[特征提取教程文档](../image_recognition_pipeline/feature_extraction.md)；关于向量检索的介绍可以参考：[向量检索教程文档](../image_recognition_pipeline/vector_search.md)。
+* 更多关于主体检测的介绍可以参考：[主体检测教程文档](../training/PP-ShiTu/mainbody_detection.md)；关于特征提取的介绍可以参考：[特征提取教程文档](../training/PP-ShiTu/feature_extraction.md)；关于向量检索的介绍可以参考：[向量检索教程文档](../deployment/PP-ShiTu/vector_search.md)。
