@@ -34,6 +34,23 @@ from .functional import augmentations
 from ppcls.utils import logger
 
 
+def format_data(func):
+    def warpper(self, data):
+        if isinstance(data, dict):
+            img = data["img"]
+            result = func(self, img)
+            if not isinstance(result, dict):
+                result = {"img": result}
+            return { ** data, ** result}
+        else:
+            result = func(self, data)
+            if isinstance(result, dict):
+                result = result["img"]
+            return result
+
+    return warpper
+
+
 class UnifiedResize(object):
     def __init__(self, interpolation=None, backend="cv2", return_numpy=True):
         _cv2_interp_from_str = {
@@ -161,6 +178,7 @@ class DecodeImage(object):
                 f"\"to_rgb\" and \"channel_first\" are only enabled when to_np is True. \"to_np\" is now {to_np}."
             )
 
+    @format_data
     def __call__(self, img):
         if isinstance(img, Image.Image):
             assert self.backend == "pil", "invalid input 'img' in DecodeImage"
@@ -188,7 +206,6 @@ class DecodeImage(object):
 
             if self.channel_first:
                 img = img.transpose((2, 0, 1))
-
         return img
 
 
@@ -416,6 +433,7 @@ class RandCropImage(object):
         self._resize_func = UnifiedResize(
             interpolation=interpolation, backend=backend)
 
+    @format_data
     def __call__(self, img):
         size = self.size
         scale = self.scale
@@ -440,9 +458,8 @@ class RandCropImage(object):
         i = random.randint(0, img_w - w)
         j = random.randint(0, img_h - h)
 
-        img = img[j:j + h, i:i + w, :]
-
-        return self._resize_func(img, size)
+        img = self._resize_func(img[j:j + h, i:i + w, :], size)
+        return img
 
 
 class RandCropImageV2(object):
@@ -547,6 +564,7 @@ class NormalizeImage(object):
         self.mean = np.array(mean).reshape(shape).astype('float32')
         self.std = np.array(std).reshape(shape).astype('float32')
 
+    @format_data
     def __call__(self, img):
         from PIL import Image
         if isinstance(img, Image.Image):
@@ -567,7 +585,9 @@ class NormalizeImage(object):
                 (img, pad_zeros), axis=0)
                    if self.order == 'chw' else np.concatenate(
                        (img, pad_zeros), axis=2))
-        return img.astype(self.output_dtype)
+
+        img = img.astype(self.output_dtype)
+        return img
 
 
 class ToCHWImage(object):
@@ -745,3 +765,19 @@ class Pad(object):
                 cv2.BORDER_CONSTANT,
                 value=(self.fill, self.fill, self.fill))
             return img
+
+
+# TODO(gaotingquan): integrate into RandomRotation
+class RandomRot90(object):
+    """RandomRot90
+    """
+
+    def __init__(self):
+        pass
+
+    @format_data
+    def __call__(self, img):
+        orientation = random.choice([0, 1, 2, 3])
+        if orientation:
+            img = np.rot90(img, orientation)
+        return {"img": img, "random_rot90_orientation": orientation}
