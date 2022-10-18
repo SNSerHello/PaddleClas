@@ -1,4 +1,4 @@
-# ESNet 系列
+# CSPNet 系列
 -----
 
 ## 目录
@@ -6,6 +6,8 @@
 - [1. 模型介绍](#1)
     - [1.1 模型简介](#1.1)
     - [1.2 模型指标](#1.2)
+    - [1.3 Benchmark](#1.3)
+      - [1.3.1 基于 V100 GPU 的预测速度](#1.3.1)
 - [2. 模型快速体验](#2)
 - [3. 模型训练、评估和预测](#3)
 - [4. 模型推理部署](#4)
@@ -24,20 +26,23 @@
 
 ### 1.1 模型简介
 
-ESNet(Enhanced ShuffleNet)是百度自研的一个轻量级网络，该网络在 ShuffleNetV2 的基础上融合了 MobileNetV3、GhostNet、PPLCNet 的优点，组合成了一个在 ARM 设备上速度更快、精度更高的网络，由于其出色的表现，所以在 PaddleDetection 推出的 [PP-PicoDet](https://github.com/PaddlePaddle/PaddleDetection/tree/release/2.3/configs/picodet) 使用了该模型做 backbone，配合更强的目标检测算法，最终的指标一举刷新了目标检测模型在 ARM 设备上的 SOTA 指标。
+CSPNet（Cross Stage Partial Network）系列网络模型主要是一种网络改进思想，该思想能够用于改进 ResNet、ResNeXt、DenseNet 和 DarkNet 等模型。该文章作者从网络结构设计的角度对模型推理阶段计算量较大的问题进行了优化，能够在降低计算量的前提下保持模型性能不降低甚至还有提高。[论文地址](https://openaccess.thecvf.com/content_CVPRW_2020/papers/w28/Wang_CSPNet_A_New_Backbone_That_Can_Enhance_Learning_Capability_of_CVPRW_2020_paper.pdf)。
 
 <a name='1.2'></a>
 
 ### 1.2 模型指标
 
-| Models | Top1 | Top5 | FLOPs<br>(M) | Params<br/>(M) |
-|:--:|:--:|:--:|:--:|:--:|
-| ESNet_x0_25 | 62.48 | 83.46 | - | - | 30.9  | 2.83 |
-| ESNet_x0_5  | 68.82 | 88.04 | - | - | 67.3  | 3.25 |
-| ESNet_x0_75 | 72.24 | 90.45 | - | - | 123.7 | 3.87 |
-| ESNet_x1_0  | 73.92 | 91.40 | - | - | 197.3 | 4.64 |
+| Models           | Top1 | Top5 | Reference<br>top1 | Reference<br>top5 | FLOPs<br>(G) | Params<br>(M) |
+|:--:|:--:|:--:|:--:|:--:|:--:|:--:|
+| CSPDarkNet53     | 0.7725 | 0.9355 | - | - | 5.041 | 27.678 |
 
-关于 Inference speed 等信息，敬请期待。
+### 1.3 Benchmark
+
+<a name='1.3.1'></a>
+
+#### 1.3.1 基于 V100 GPU 的预测速度
+
+敬请期待。
 
 <a name="2"></a>  
 
@@ -49,7 +54,9 @@ ESNet(Enhanced ShuffleNet)是百度自研的一个轻量级网络，该网络在
 
 ## 3. 模型训练、评估和预测
 
-此部分内容包括训练环境配置、ImageNet数据的准备、该模型在 ImageNet 上的训练、评估、预测等内容。在 `ppcls/configs/ImageNet/ESNet/` 中提供了该模型的训练配置，启动训练方法可以参考：[ResNet50 模型训练、评估和预测](./ResNet.md#3-模型训练评估和预测)。
+此部分内容包括训练环境配置、ImageNet数据的准备、该模型在 ImageNet 上的训练、评估、预测等内容。在 `ppcls/configs/ImageNet/DeiT/` 中提供了该模型的训练配置，启动训练方法可以参考：[ResNet50 模型训练、评估和预测](./ResNet.md#3-模型训练评估和预测)。
+
+**备注：** 由于 DeiT 系列模型默认使用的 GPU 数量为 8 个，所以在训练时，需要指定8个GPU，如`python3 -m paddle.distributed.launch --gpus="0,1,2,3,4,5,6,7" tools/train.py -c xxx.yaml`, 如果使用 4 个 GPU 训练，默认学习率需要减小一半，精度可能有损。
 
 <a name="4"></a>
 
