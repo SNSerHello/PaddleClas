@@ -52,15 +52,15 @@ PP-ShiTuV2 是基于 PP-ShiTuV1 改进的一个实用轻量级通用图像识别
 
 可以通过扫描二维码或者 [点击链接](https://paddle-imagenet-models-name.bj.bcebos.com/demos/PP-ShiTu.apk) 下载并安装APP
 
-<div align=center><img src="../../images/quick_start/android_demo/PPShiTu_qrcode.png" width="300"/></div>
+<div align=center><img src="../../../images/quick_start/android_demo/PPShiTu_qrcode.png" width="300"/></div>
 
 然后将以下体验图片保存到手机上：
 
-<div align=center><img src="../../images/recognition/drink_data_demo/test_images/nongfu_spring.jpeg" width=30% height=30% /></div>
+<div align=center><img src="../../../images/recognition/drink_data_demo/test_images/nongfu_spring.jpeg" width=30% height=30% /></div>
 
 打开安装好的APP，点击下方“**本地识别**”按钮，选择上面这张保存的图片，再点击确定，就能得到如下识别结果：
 
-<div align=center><img src="../../images/quick_start/android_demo/android_nongfu_spring.JPG" width=30% height=30%/></div>
+<div align=center><img src="../../../images/quick_start/android_demo/android_nongfu_spring.JPG" width=30% height=30%/></div>
 
 更详细的说明参考[PP-ShiTu android demo功能说明](https://github.com/weisy11/PaddleClas/blob/develop/docs/zh_CN/quick_start/quick_start_recognition.md)
 
@@ -87,18 +87,22 @@ PP-ShiTuV2 是基于 PP-ShiTuV1 改进的一个实用轻量级通用图像识别
   python3.7 setup.py install
   ```
 
-- 然后执行以下命令下载并解压好demo数据，最后执行一行命令体验图像识别
+- 然后执行以下命令下载并解压好demo数据，最后执行命令体验索引库构建和图像识别
 
   ```shell
   # 下载并解压demo数据
   wget -nc https://paddle-imagenet-models-name.bj.bcebos.com/dygraph/rec/data/drink_dataset_v2.0.tar && tar -xf drink_dataset_v2.0.tar
 
-  # 执行识别命令
-  paddleclas \
-  --model_name=PP-ShiTuV2 \
-  --infer_imgs=./drink_dataset_v2.0/test_images/100.jpeg \
-  --index_dir=./drink_dataset_v2.0/index/ \
-  --data_file=./drink_dataset_v2.0/gallery/drink_label.txt
+  # 在命令行中构建索引库
+  paddleclas --build_gallery=True --model_name="PP-ShiTuV2" \
+  -o IndexProcess.image_root=./drink_dataset_v2.0/gallery/ \
+  -o IndexProcess.index_dir=./drink_dataset_v2.0/index \
+  -o IndexProcess.data_file=./drink_dataset_v2.0/gallery/drink_label.txt
+
+  # 执行图像识别命令
+  paddleclas --model_name=PP-ShiTuV2 --predict_type=shitu \
+  -o Global.infer_imgs='./drink_dataset_v2.0/test_images/100.jpeg' \
+  -o IndexProcess.index_dir='./drink_dataset_v2.0/index'
   ```
 
 ## 3 模块介绍与训练
@@ -167,7 +171,7 @@ cd deploy/models
 wget -nc https://paddle-imagenet-models-name.bj.bcebos.com/dygraph/rec/models/inference/picodet_PPLCNet_x2_5_mainbody_lite_v1.0_infer.tar && tar -xf picodet_PPLCNet_x2_5_mainbody_lite_v1.0_infer.tar
 
 # 下载特征提取inference模型并解压
-wget -nc https://paddle-imagenet-models-name.bj.bcebos.com/dygraph/rec/models/inference/PP-ShiTuV2/general_PPLCNetV2_base_pretrained_v1.0_infer.tar && tar -xf general_PPLCNetV2_base_pretrained_v1.
+wget -nc https://paddle-imagenet-models-name.bj.bcebos.com/dygraph/rec/models/inference/PP-ShiTuV2/general_PPLCNetV2_base_pretrained_v1.0_infer.tar && tar -xf general_PPLCNetV2_base_pretrained_v1.0_infer.tar
 ```
 
 ### 4.2 测试数据准备
