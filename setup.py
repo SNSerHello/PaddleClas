@@ -50,7 +50,7 @@ setup(
         'swin-transformer', 'image-retrieval-system'
     ],
     classifiers=[
-        'Intended Audience :: Developers',
+        'Development Status :: 5 - Production/Stable',
         'Operating System :: OS Independent',
         'Natural Language :: Chinese (Simplified)',
         'Programming Language :: Python :: 3',

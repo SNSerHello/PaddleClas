@@ -14,13 +14,14 @@ from .msmloss import MSMLoss
 from .npairsloss import NpairsLoss
 from .trihardloss import TriHardLoss
 from .triplet import TripletLoss, TripletLossV2
-from .tripletangularmarginloss import TripletAngularMarginLoss
+from .tripletangularmarginloss import TripletAngularMarginLoss, TripletAngularMarginLoss_XBM
 from .supconloss import SupConLoss
+from .softsuploss import SoftSupConLoss
+from .ccssl_loss import CCSSLCELoss
 from .pairwisecosface import PairwiseCosface
 from .dmlloss import DMLLoss
 from .distanceloss import DistanceLoss
 from .softtargetceloss import SoftTargetCrossEntropy
-
 from .distillationloss import DistillationCELoss
 from .distillationloss import DistillationGTCELoss
 from .distillationloss import DistillationDMLLoss
@@ -29,6 +30,7 @@ from .distillationloss import DistillationRKDLoss
 from .distillationloss import DistillationKLDivLoss
 from .distillationloss import DistillationDKDLoss
 from .distillationloss import DistillationWSLLoss
+from .distillationloss import DistillationSKDLoss
 from .distillationloss import DistillationMultiLabelLoss
 from .distillationloss import DistillationDISTLoss
 from .distillationloss import DistillationPairLoss
@@ -39,6 +41,11 @@ from .afdloss import AFDLoss
 from .deephashloss import DSHSDLoss
 from .deephashloss import LCDSHLoss
 from .deephashloss import DCHLoss
+
+from .metabinloss import CELossForMetaBIN
+from .metabinloss import TripletLossForMetaBIN
+from .metabinloss import InterDomainShuffleLoss
+from .metabinloss import IntraDomainScatterLoss
 
 
 class CombinedLoss(nn.Layer):

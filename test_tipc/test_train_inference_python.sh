@@ -270,11 +270,10 @@ else
                     cmd="${python} -m paddle.distributed.launch --ips=${ips} --devices=${gpu} ${run_train} ${set_use_gpu} ${set_save_model} ${set_pretrain} ${set_epoch} ${set_autocast} ${set_batchsize} ${set_train_params1}"
                 fi
                 # run train
-                eval "unset CUDA_VISIBLE_DEVICES"
                 # export FLAGS_cudnn_deterministic=True
                 sleep 5
                 eval $cmd
-                if [[ $model_name == *GeneralRecognition* ]]; then
+                if [[ $model_name == *GeneralRecognition* ]] || [[ $model_name == *MetaBIN_ResNet50* ]]; then
                     eval "cat ${save_log}/RecModel/train.log >> ${save_log}.log"
                 else
                     eval "cat ${save_log}/${model_name}/train.log >> ${save_log}.log"
@@ -282,7 +281,7 @@ else
                 status_check $? "${cmd}" "${status_log}" "${model_name}" "${save_log}.log"
                 sleep 5
 
-                if [[ $model_name == *GeneralRecognition* ]]; then
+                if [[ $model_name == *GeneralRecognition* ]] || [[ $model_name == *MetaBIN_ResNet50* ]]; then
                     set_eval_pretrain=$(func_set_params "${pretrain_model_key}" "${save_log}/RecModel/${train_model_name}")
                 else
                     set_eval_pretrain=$(func_set_params "${pretrain_model_key}" "${save_log}/${model_name}/${train_model_name}")
@@ -304,7 +303,7 @@ else
                 if [ ${run_export} != "null" ]; then
                     # run export model
                     save_infer_path="${save_log}"
-                    if [[ $model_name == *GeneralRecognition* ]]; then
+                    if [[ $model_name == *GeneralRecognition* ]] || [[ $model_name == *MetaBIN_ResNet50* ]]; then
                         set_eval_pretrain=$(func_set_params "${pretrain_model_key}" "${save_log}/RecModel/${train_model_name}")
                     else
                         set_export_weight=$(func_set_params "${export_weight}" "${save_log}/${model_name}/${train_model_name}")
