@@ -486,6 +486,7 @@ class Engine(object):
     @paddle.no_grad()
     def infer(self):
         assert self.mode == "infer" and self.eval_mode == "classification"
+        results = []
         total_trainer = dist.get_world_size()
         local_rank = dist.get_rank()
         image_list = get_image_list(self.config["Infer"]["infer_imgs"])
@@ -520,10 +521,13 @@ class Engine(object):
                     out = out["logits"]
                 if isinstance(out, dict) and "output" in out:
                     out = out["output"]
+
                 result = self.postprocess_func(out, image_file_list)
-                print(result)
+                logger.info(result)
+                results.extend(result)
                 batch_data.clear()
                 image_file_list.clear()
+        return results
 
     def export(self):
         assert self.mode == "export"
